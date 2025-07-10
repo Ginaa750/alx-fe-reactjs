@@ -11,9 +11,9 @@ function App() {
     <MainContent />
     <WelcomeMessage />
     <UserProfile 
-    name="Ginna"
-    age="31"
-    bio="Gina Godwin is a front-end developer and UX/UI designer passionate about creating intuitive, user-friendly digital experiences. "
+    name="Alice"
+    age="25"
+    bio="Loves hiking and photography"
     />
     <Footer />
 
