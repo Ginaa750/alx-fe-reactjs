@@ -1,10 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './Home';
-import About from './About';
-import Services from './Services';
-import Contact from './Contact';
-import Navbar from './Navbar';
-
+import Navbar from './components/Navbar';
+import Home from './components/Home';
+import About from './components/About';
+import Contact from './components/Contact';
+import Services from './components/Services'; // Assuming Services component exists
 function App() {
   return (
     <Router>
