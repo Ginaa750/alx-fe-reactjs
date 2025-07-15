@@ -1,7 +1,7 @@
 function MainContent() {
   return (
-     <main style={{ padding: '20px', backgroundColor: '#f0f0f0' }}>
-      <p style={{ fontSize: '1.2rem' }}>Explore the best cities in the world!</p>
+      <main style={{ padding: '20px', backgroundColor: '#f9f9f9', fontSize: '1.2rem', textAlign: 'center' }}>
+      <p>I love to visit New York, Paris, and Tokyo.</p>
     </main>
   );
 }
