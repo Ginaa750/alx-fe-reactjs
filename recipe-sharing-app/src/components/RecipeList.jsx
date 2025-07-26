@@ -1,5 +1,5 @@
 import React from 'react';
-import useRecipeStore from './recipeStore';
+import useRecipeStore from '../store/recipeStore';
 
 const RecipeList = () => {
   const filteredRecipes = useRecipeStore((state) => state.filteredRecipes);
@@ -10,7 +10,7 @@ const RecipeList = () => {
         <p>No recipes found.</p>
       ) : (
         filteredRecipes.map((recipe, index) => (
-          <div key={index}>
+          <div key={index} style={{ marginBottom: '15px' }}>
             <h3>{recipe.title}</h3>
             <p>{recipe.description}</p>
           </div>
