@@ -1,35 +1,48 @@
+// src/components/recipeStore.js
 import { create } from 'zustand';
 
-const useRecipeStore = create((set, get) => ({
+const useRecipeStore = create((set) => ({
   recipes: [],
   searchTerm: '',
   filteredRecipes: [],
-
-  setRecipes: (recipes) => {
-    const { searchTerm } = get();
-    const filtered = recipes.filter((recipe) =>
-      recipe.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    set({ recipes, filteredRecipes: filtered });
-  },
-
-  setSearchTerm: (term) => {
-    const { recipes } = get();
-    const filtered = recipes.filter((recipe) =>
-      recipe.title.toLowerCase().includes(term.toLowerCase())
-    );
-    set({ searchTerm: term, filteredRecipes: filtered });
-  },
-
-  // ✅ New: addRecipe
-  addRecipe: (newRecipe) => {
-    const { recipes, searchTerm } = get();
-    const updatedRecipes = [...recipes, newRecipe];
-    const filtered = updatedRecipes.filter((recipe) =>
-      recipe.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    set({ recipes: updatedRecipes, filteredRecipes: filtered });
-  },
+  setRecipes: (recipes) => set({ recipes }),
+  setSearchTerm: (term) =>
+    set((state) => {
+      const filtered = state.recipes.filter((recipe) =>
+        recipe.title.toLowerCase().includes(term.toLowerCase())
+      );
+      return {
+        searchTerm: term,
+        filteredRecipes: filtered,
+      };
+    }),
+  addRecipe: (recipe) =>
+    set((state) => ({
+      recipes: [...state.recipes, recipe],
+      filteredRecipes: [...state.filteredRecipes, recipe],
+    })),
+  updateRecipe: (updatedRecipe) =>
+    set((state) => {
+      const updatedList = state.recipes.map((r) =>
+        r.id === updatedRecipe.id ? updatedRecipe : r
+      );
+      return {
+        recipes: updatedList,
+        filteredRecipes: updatedList.filter((recipe) =>
+          recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
+        ),
+      };
+    }),
+  deleteRecipe: (id) =>
+    set((state) => {
+      const updatedList = state.recipes.filter((r) => r.id !== id);
+      return {
+        recipes: updatedList,
+        filteredRecipes: updatedList.filter((recipe) =>
+          recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
+        ),
+      };
+    }),
 }));
 
 export default useRecipeStore;
