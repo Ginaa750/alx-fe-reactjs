@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import useRecipeStore from './recipeStore';
+import useRecipeStore from './recipeStore'; // adjust the path if needed
 
 const AddRecipeForm = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const recipes = useRecipeStore((state) => state.recipes);
-  const setRecipes = useRecipeStore((state) => state.setRecipes);
+  const addRecipe = useRecipeStore((state) => state.addRecipe);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const newRecipe = { title, description };
-    setRecipes([...recipes, newRecipe]);
+    addRecipe(newRecipe); // ✅ using the store method
     setTitle('');
     setDescription('');
   };
