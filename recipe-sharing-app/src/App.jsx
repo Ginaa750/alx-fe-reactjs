@@ -1,14 +1,17 @@
-import './App.css';
-import AddRecipeForm from './components/AddRecipeForm';
+import React from 'react';
+import SearchBar from './components/SearchBar';
 import RecipeList from './components/RecipeList';
+import AddRecipeForm from './components/AddRecipeForm';
 
-function App() {
+const App = () => {
   return (
-    <div style={{ maxWidth: '600px', margin: '2rem auto', fontFamily: 'sans-serif' }}>
+    <div style={{ padding: '20px', maxWidth: '600px', margin: 'auto' }}>
       <h1>Recipe Sharing App</h1>
+      <SearchBar />
       <AddRecipeForm />
       <RecipeList />
     </div>
   );
-}
+};
+
 export default App;
