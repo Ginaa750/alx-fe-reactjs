@@ -1,7 +1,5 @@
-import './App.css'
+import React from 'react';
 import Search from './components/Search';
-import './index.css';
-
 
 function App() {
   return (
@@ -13,3 +11,4 @@ function App() {
 }
 
 export default App;
+ App;
