@@ -4,6 +4,7 @@ function Search({ onSearch }) {
   const [username, setUsername] = useState('');
   const [location, setLocation] = useState('');
   const [minRepos, setMinRepos] = useState('');
+  const [loading, setLoading] = useState(false);
   const [tips] = useState([
     'Search by GitHub username',
     'Filter by location (optional)',
@@ -11,10 +12,19 @@ function Search({ onSearch }) {
   ]);
   const [showTips, setShowTips] = useState(true);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSearch({ username, location, minRepos });
-    setShowTips(false); // Example condition to toggle tips
+    setLoading(true);
+
+    try {
+      // ✅ async/await used here
+      await onSearch({ username, location, minRepos });
+      setShowTips(false);
+    } catch (error) {
+      console.error('Search failed:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -42,14 +52,12 @@ function Search({ onSearch }) {
           className="border p-2 rounded"
         />
         <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-          Search
+          {loading ? 'Searching...' : 'Search'}
         </button>
       </form>
 
-      {/* ✅ Conditional rendering with && */}
       {showTips && (
         <ul className="mt-4 text-sm text-gray-600 list-disc list-inside">
-          {/* ✅ Mapping with .map */}
           {tips.map((tip, index) => (
             <li key={index}>{tip}</li>
           ))}
