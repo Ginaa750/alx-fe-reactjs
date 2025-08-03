@@ -1,25 +1,16 @@
 import React, { useState } from 'react';
 
-function Search({ onSearch }) {
+function Search({ onSearch, results = [] }) {
   const [username, setUsername] = useState('');
   const [location, setLocation] = useState('');
   const [minRepos, setMinRepos] = useState('');
   const [loading, setLoading] = useState(false);
-  const [tips] = useState([
-    'Search by GitHub username',
-    'Filter by location (optional)',
-    'Set a minimum number of repos'
-  ]);
-  const [showTips, setShowTips] = useState(true);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     try {
-      // ✅ async/await used here
       await onSearch({ username, location, minRepos });
-      setShowTips(false);
     } catch (error) {
       console.error('Search failed:', error);
     } finally {
@@ -28,8 +19,8 @@ function Search({ onSearch }) {
   };
 
   return (
-    <div className="mb-4">
-      <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-4 items-center justify-center">
+    <div>
+      <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-4 mb-6">
         <input
           type="text"
           placeholder="GitHub Username"
@@ -51,18 +42,31 @@ function Search({ onSearch }) {
           onChange={(e) => setMinRepos(e.target.value)}
           className="border p-2 rounded"
         />
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
           {loading ? 'Searching...' : 'Search'}
         </button>
       </form>
 
-      {showTips && (
-        <ul className="mt-4 text-sm text-gray-600 list-disc list-inside">
-          {tips.map((tip, index) => (
-            <li key={index}>{tip}</li>
-          ))}
-        </ul>
-      )}
+      {/* ✅ This includes html_url */}
+      <div>
+        {results.length > 0 && (
+          <ul className="space-y-4">
+            {results.map((user) => (
+              <li key={user.id} className="p-4 border rounded">
+                <p className="font-semibold">{user.login}</p>
+                <a
+                  href={user.html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 underline"
+                >
+                  View GitHub Profile
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }
