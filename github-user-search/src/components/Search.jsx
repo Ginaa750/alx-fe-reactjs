@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function Search({ onSearch, results = [] }) {
+function Search({ fetchUserData, results = [] }) {
   const [username, setUsername] = useState('');
   const [location, setLocation] = useState('');
   const [minRepos, setMinRepos] = useState('');
@@ -10,9 +10,9 @@ function Search({ onSearch, results = [] }) {
     e.preventDefault();
     setLoading(true);
     try {
-      await onSearch({ username, location, minRepos });
+      await fetchUserData({ username, location, minRepos });
     } catch (error) {
-      console.error('Search failed:', error);
+      console.error('Error fetching user data:', error);
     } finally {
       setLoading(false);
     }
@@ -47,26 +47,23 @@ function Search({ onSearch, results = [] }) {
         </button>
       </form>
 
-      {/* ✅ This includes html_url */}
-      <div>
-        {results.length > 0 && (
-          <ul className="space-y-4">
-            {results.map((user) => (
-              <li key={user.id} className="p-4 border rounded">
-                <p className="font-semibold">{user.login}</p>
-                <a
-                  href={user.html_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 underline"
-                >
-                  View GitHub Profile
-                </a>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      {results.length > 0 && (
+        <ul className="space-y-4">
+          {results.map((user) => (
+            <li key={user.id} className="p-4 border rounded">
+              <p className="font-semibold">{user.login}</p>
+              <a
+                href={user.html_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 underline"
+              >
+                View GitHub Profile
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
