@@ -24,6 +24,12 @@ function App() {
 
   return (
     <div className="p-4 min-h-screen bg-gray-100">
+
+      {/* ✅ Tailwind Test */}
+      <div className="bg-green-100 text-green-800 p-4 rounded-xl text-center font-semibold">
+        ✅ Tailwind CSS is working!
+      </div>
+
       <Search onSearch={handleSearch} />
 
       {error && <p className="text-red-500 text-center mt-4">{error}</p>}
