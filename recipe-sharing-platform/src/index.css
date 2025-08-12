@@ -1,0 +1,5 @@
+@import "tailwindcss";
+/* your custom styles can follow here */
+
+/* (optional) a quick CSS reset nicety for images/fonts */
+:root { color-scheme: light dark; }
