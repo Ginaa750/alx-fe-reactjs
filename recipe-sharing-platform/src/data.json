@@ -2,25 +2,19 @@
   {
     "id": 1,
     "title": "Spaghetti Carbonara",
-    "summary": "Silky egg sauce, pecorino, and crisp guanciale tossed through hot pasta.",
-    "image": "https://images.unsplash.com/photo-1523986371872-9d3ba2e2a389",
-    "tags": ["Italian", "Pasta", "30-min"],
-    "rating": 4.8
+    "summary": "A classic Italian pasta dish with eggs, cheese, bacon, and black pepper.",
+    "image": "https://via.placeholder.com/300x200"
   },
   {
     "id": 2,
     "title": "Chicken Tikka Masala",
-    "summary": "Charred chicken in a rich, creamy tomato gravy spiced just right.",
-    "image": "https://images.unsplash.com/photo-1604909052743-94e838c2a2a7",
-    "tags": ["Indian", "Comfort"],
-    "rating": 4.6
+    "summary": "Chunks of grilled chicken cooked in a buttery, creamy tomato gravy.",
+    "image": "https://via.placeholder.com/300x200"
   },
   {
     "id": 3,
     "title": "Avocado Toast",
-    "summary": "Crunchy sourdough, smashed avo, a drizzle of olive oil, chili flakes.",
-    "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
-    "tags": ["Breakfast", "Vegan", "Quick"],
-    "rating": 4.3
+    "summary": "Sourdough, smashed avocado, olive oil, and chili flakes.",
+    "image": "https://via.placeholder.com/300x200"
   }
 ]
