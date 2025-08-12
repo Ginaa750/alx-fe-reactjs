@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function HomePage() {
   const [recipes, setRecipes] = useState([]);
@@ -26,12 +27,14 @@ export default function HomePage() {
         {loading ? (
           <p className="text-center text-gray-500">Loading recipes…</p>
         ) : (
-          // ✅ Now includes "grid-cols-1" for mobile-first layout
+          // ✅ mobile-first layout kept
           <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {recipes.map((recipe) => (
-              <article
+              <Link
                 key={recipe.id}
-                className="bg-white rounded-xl shadow-md overflow-hidden transition-transform hover:shadow-xl hover:scale-[1.02]"
+                to={`/recipe/${recipe.id}`}
+                className="group bg-white rounded-xl shadow-md overflow-hidden transition-transform hover:shadow-xl hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                aria-label={`View details for ${recipe.title}`}
               >
                 <img
                   src={recipe.image}
@@ -44,15 +47,11 @@ export default function HomePage() {
                   <p className="mt-1 text-sm text-gray-600 line-clamp-3">
                     {recipe.summary}
                   </p>
-                  <a
-                    href="#"
-                    className="mt-4 inline-block px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm hover:bg-emerald-700"
-                    aria-label={`View details for ${recipe.title}`}
-                  >
-                    View Recipe
-                  </a>
+                  <span className="mt-4 inline-block px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm group-hover:bg-emerald-700">
+                    View Recipe →
+                  </span>
                 </div>
-              </article>
+              </Link>
             ))}
           </section>
         )}

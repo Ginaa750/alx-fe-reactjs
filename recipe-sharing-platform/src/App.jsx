@@ -1,9 +1,16 @@
-import HomePage from "./components/HomePage";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import HomePage from './components/HomePage';
+import RecipeDetail from './components/RecipeDetail';
 
 export default function App() {
   return (
-    <div className="bg-slate-50 min-h-screen">
-      <HomePage />
-    </div>
+    <Router>
+      <div className="min-h-screen bg-gray-50 text-gray-900">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/recipe/:id" element={<RecipeDetail />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
