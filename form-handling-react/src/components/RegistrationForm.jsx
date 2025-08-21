@@ -33,7 +33,7 @@ export default function RegistrationForm() {
       setLoading(true)
       setStatus({ type: '', message: '' })
 
-      // Mock API: create user
+      // Mock API
       const res = await fetch('https://reqres.in/api/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -41,7 +41,6 @@ export default function RegistrationForm() {
       })
       if (!res.ok) throw new Error('Failed to register. Try again.')
       const data = await res.json()
-
       setStatus({ type: 'success', message: `Registered! ID: ${data.id}` })
       setValues(initialValues)
     } catch (err) {
@@ -67,45 +66,19 @@ export default function RegistrationForm() {
 
       <div style={fieldStyle}>
         <label htmlFor="username">Username</label>
-        <input
-          id="username"
-          name="username"
-          value={values.username}
-          onChange={handleChange}
-          placeholder="e.g. naomi_w"
-          style={inputStyle}
-          autoComplete="username"
-        />
+        <input id="username" name="username" value={values.username} onChange={handleChange} placeholder="e.g. naomi_w" style={inputStyle} autoComplete="username" />
         {errors.username && <small style={{ color: '#ff8b8b' }}>{errors.username}</small>}
       </div>
 
       <div style={fieldStyle}>
         <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          name="email"
-          value={values.email}
-          onChange={handleChange}
-          placeholder="you@example.com"
-          style={inputStyle}
-          autoComplete="email"
-          type="email"
-        />
+        <input id="email" name="email" type="email" value={values.email} onChange={handleChange} placeholder="you@example.com" style={inputStyle} autoComplete="email" />
         {errors.email && <small style={{ color: '#ff8b8b' }}>{errors.email}</small>}
       </div>
 
       <div style={fieldStyle}>
         <label htmlFor="password">Password</label>
-        <input
-          id="password"
-          name="password"
-          value={values.password}
-          onChange={handleChange}
-          placeholder="••••••••"
-          style={inputStyle}
-          autoComplete="new-password"
-          type="password"
-        />
+        <input id="password" name="password" type="password" value={values.password} onChange={handleChange} placeholder="••••••••" style={inputStyle} autoComplete="new-password" />
         {errors.password && <small style={{ color: '#ff8b8b' }}>{errors.password}</small>}
       </div>
 
