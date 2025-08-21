@@ -1,4 +1,6 @@
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink, Routes, Route } from 'react-router-dom'
+import ProfileDetails from '../pages/ProfileDetails'
+import ProfileSettings from '../pages/ProfileSettings'
 
 export default function Profile() {
   const linkStyle = ({ isActive }) => ({
@@ -14,16 +16,20 @@ export default function Profile() {
   return (
     <div>
       <h2>Profile</h2>
-      <p>This page is protected. It also demonstrates nested routes:</p>
+      <p>This page is protected. It also demonstrates <strong>nested routes</strong> rendered inside the component.</p>
 
       <div style={{ margin: '10px 0' }}>
         <NavLink to="details" style={linkStyle}>Profile Details</NavLink>
         <NavLink to="settings" style={linkStyle}>Profile Settings</NavLink>
       </div>
 
-      {/* Nested routes render here */}
+      {/* Nested routes declared inside Profile */}
       <div style={{ border: '1px solid #22315a', borderRadius: 12, padding: 12 }}>
-        <Outlet />
+        <Routes>
+          <Route index element={<div>Select a section from above.</div>} />
+          <Route path="details" element={<ProfileDetails />} />
+          <Route path="settings" element={<ProfileSettings />} />
+        </Routes>
       </div>
     </div>
   )
