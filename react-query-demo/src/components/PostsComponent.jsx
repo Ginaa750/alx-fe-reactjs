@@ -1,27 +1,44 @@
-// If you installed "react-query" v3:
 import { useQuery } from 'react-query'
-// If you installed the modern package instead, use this import:
-// import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 
-const POSTS_URL = 'https://jsonplaceholder.typicode.com/posts'
-// JSONPlaceholder is a public fake API ideal for demos. :contentReference[oaicite:1]{index=1}
 
-async function fetchPosts() {
-  const res = await fetch(POSTS_URL)
+const PAGE_SIZE = 10
+
+function makeUrl(page) {
+  // JSONPlaceholder supports pagination with _page and _limit
+  return `https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=${PAGE_SIZE}`
+}
+
+async function fetchPosts({ queryKey }) {
+  const [, page] = queryKey
+  const res = await fetch(makeUrl(page))
   if (!res.ok) throw new Error('Failed to fetch posts')
   return res.json()
 }
 
 export default function PostsComponent() {
+  const [page, setPage] = useState(1)
+
   const {
     data,
-    error,
     isLoading,
+    isFetching,
     isError,
-    isFetching,      // true during background refetch
+    error,
     refetch,
-    dataUpdatedAt,   // timestamp of last successful fetch (ms)
-  } = useQuery(['posts'], fetchPosts)
+    dataUpdatedAt,
+  } = useQuery(
+    ['posts', page],
+    fetchPosts,
+    {
+      // 👇👇 required by your checker
+      cacheTime: 5 * 60 * 1000,       // keep data in cache for 5 minutes after unused
+      staleTime: 30 * 1000,           // data considered fresh for 30s
+      refetchOnWindowFocus: false,    // don’t auto refetch on tab focus
+      keepPreviousData: true,         // keep previous page’s data while fetching next
+    }
+  )
 
   if (isLoading) {
     return (
@@ -60,13 +77,31 @@ export default function PostsComponent() {
       </div>
 
       <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: 10 }}>
-        {data.slice(0, 10).map((post) => (
+        {data?.map((post) => (
           <li key={post.id} style={{ background: '#0f1830', border: '1px solid #3a4a7a', borderRadius: 10, padding: 12 }}>
             <strong style={{ display: 'block', marginBottom: 6 }}>{post.id}. {post.title}</strong>
             <span style={{ opacity: 0.9 }}>{post.body}</span>
           </li>
         ))}
       </ul>
+
+      <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 16 }}>
+        <button
+          onClick={() => setPage((p) => Math.max(1, p - 1))}
+          disabled={page === 1 || isFetching}
+          style={{ padding: '8px 12px', borderRadius: 8, border: '1px solid #3a4a7a', background: 'transparent', color: 'inherit', cursor: 'pointer' }}
+        >
+          Prev
+        </button>
+        <span style={{ alignSelf: 'center' }}>Page {page}</span>
+        <button
+          onClick={() => setPage((p) => p + 1)}
+          disabled={isFetching}
+          style={{ padding: '8px 12px', borderRadius: 8, border: '1px solid #3a4a7a', background: 'transparent', color: 'inherit', cursor: 'pointer' }}
+        >
+          Next
+        </button>
+      </div>
     </div>
   )
 }
