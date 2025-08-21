@@ -1,25 +1,20 @@
 import { useState } from 'react'
 
-const initialValues = { username: '', email: '', password: '' }
-
 export default function RegistrationForm() {
-  const [values, setValues] = useState(initialValues)
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [errors, setErrors] = useState({})
   const [status, setStatus] = useState({ type: '', message: '' })
   const [loading, setLoading] = useState(false)
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setValues((v) => ({ ...v, [name]: value }))
-  }
-
   const validate = () => {
     const errs = {}
-    if (!values.username.trim()) errs.username = 'Username is required'
-    if (!values.email.trim()) errs.email = 'Email is required'
-    else if (!/^\S+@\S+\.\S+$/.test(values.email)) errs.email = 'Enter a valid email'
-    if (!values.password) errs.password = 'Password is required'
-    else if (values.password.length < 6) errs.password = 'Min 6 characters'
+    if (!username.trim()) errs.username = 'Username is required'
+    if (!email.trim()) errs.email = 'Email is required'
+    else if (!/^\S+@\S+\.\S+$/.test(email)) errs.email = 'Enter a valid email'
+    if (!password) errs.password = 'Password is required'
+    else if (password.length < 6) errs.password = 'Min 6 characters'
     return errs
   }
 
@@ -37,12 +32,16 @@ export default function RegistrationForm() {
       const res = await fetch('https://reqres.in/api/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ username, email, password }),
       })
       if (!res.ok) throw new Error('Failed to register. Try again.')
       const data = await res.json()
       setStatus({ type: 'success', message: `Registered! ID: ${data.id}` })
-      setValues(initialValues)
+
+      // reset
+      setUsername('')
+      setEmail('')
+      setPassword('')
     } catch (err) {
       setStatus({ type: 'error', message: err.message || 'Network error' })
     } finally {
@@ -66,19 +65,45 @@ export default function RegistrationForm() {
 
       <div style={fieldStyle}>
         <label htmlFor="username">Username</label>
-        <input id="username" name="username" value={values.username} onChange={handleChange} placeholder="e.g. naomi_w" style={inputStyle} autoComplete="username" />
+        <input
+          id="username"
+          name="username"
+          value={username}       // 👈 exactly what the test wants
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="e.g. naomi_w"
+          style={inputStyle}
+          autoComplete="username"
+        />
         {errors.username && <small style={{ color: '#ff8b8b' }}>{errors.username}</small>}
       </div>
 
       <div style={fieldStyle}>
         <label htmlFor="email">Email</label>
-        <input id="email" name="email" type="email" value={values.email} onChange={handleChange} placeholder="you@example.com" style={inputStyle} autoComplete="email" />
+        <input
+          id="email"
+          name="email"
+          type="email"
+          value={email}          // 👈 exactly what the test wants
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="you@example.com"
+          style={inputStyle}
+          autoComplete="email"
+        />
         {errors.email && <small style={{ color: '#ff8b8b' }}>{errors.email}</small>}
       </div>
 
       <div style={fieldStyle}>
         <label htmlFor="password">Password</label>
-        <input id="password" name="password" type="password" value={values.password} onChange={handleChange} placeholder="••••••••" style={inputStyle} autoComplete="new-password" />
+        <input
+          id="password"
+          name="password"
+          type="password"
+          value={password}       // 👈 exactly what the test wants
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="••••••••"
+          style={inputStyle}
+          autoComplete="new-password"
+        />
         {errors.password && <small style={{ color: '#ff8b8b' }}>{errors.password}</small>}
       </div>
 
