@@ -9,14 +9,14 @@ export default function RegistrationForm() {
   const [loading, setLoading] = useState(false)
 
   const validate = () => {
-    const errs = {}
-    if (!username.trim()) errs.username = 'Username is required'
-    if (!email.trim()) errs.email = 'Email is required'
-    else if (!/^\S+@\S+\.\S+$/.test(email)) errs.email = 'Enter a valid email'
-    if (!password) errs.password = 'Password is required'
-    else if (password.length < 6) errs.password = 'Min 6 characters'
-    return errs
-  }
+  const errs = {}
+  if (!username) errs.username = 'Username is required'
+  if (!email) errs.email = 'Email is required'  
+  else if (!/^\S+@\S+\.\S+$/.test(email)) errs.email = 'Enter a valid email'
+  if (!password) errs.password = 'Password is required'
+  else if (password.length < 6) errs.password = 'Min 6 characters'
+  return errs
+}
 
   const handleSubmit = async (e) => {
     e.preventDefault()
