@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import RegistrationForm from './components/RegistrationForm.jsx'
-import FormikForm from './components/formikForm.jsx'
+import RegistrationForm from "./components/RegistrationForm.jsx"
+import FormikForm from "./components/formikForm.js";
 
 export default function App() {
   const [mode, setMode] = useState('controlled') // 'controlled' | 'formik'
